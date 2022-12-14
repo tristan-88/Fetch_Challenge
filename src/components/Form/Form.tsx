@@ -67,7 +67,12 @@ function Form() {
               Please submit your information
             </h3>
           </div>
-          <form action="#" className="p-0" onSubmit={handleSubmit} data-testid="form">
+          <form
+            action="#"
+            className="p-0"
+            onSubmit={handleSubmit}
+            data-testid="form"
+          >
             <div className="mt-5">
               <input
                 type="text"
@@ -107,7 +112,7 @@ function Form() {
                   setState(e.target.value);
                   console.log(e.target.value);
                 }}
-                value={state|| ""}
+                value={state || ""}
                 className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent  "
               >
                 <option value="" disabled hidden>
@@ -140,26 +145,30 @@ function Form() {
                   ))}
               </select>
             </div>
-            {/* 
-            <div className="mt-6 block p-5 text-sm md:font-sans text-xs text-gray-800">
-               © Tristan Sanjuan
-            </div> */}
-
             <div className="mt-10">
-              <input
+              <button
                 type="submit"
                 value="Submit"
-                className="py-3 bg-green-500 text-white w-full rounded hover:bg-green-600 button-submit"
+                className={
+                  isDisabled
+                    ? "py-3 bg-green-100 text-white w-full rounded hover:bg-green-200 button-submit"
+                    : "py-3 bg-green-500 text-white w-full rounded hover:bg-green-600 button-submit"
+                }
                 disabled={isDisabled}
                 data-testid="submit"
-              ></input>
+              >
+                Submit
+              </button>
             </div>
-          </form>
-          <a className="" href="/login" data-test="Link">
+          </form>{" "}
+          <div className="mt-3 block text-sm md:font-sans text-xs text-gray-800">
+            © created by Tristan Sanjuan
+          </div>
+          <div className="" data-test="Link">
             <span className="block  p-5 text-center text-gray-800  text-xs ">
               {responseOk && <ModalMessage responseOk={responseOk} />}
             </span>
-          </a>
+          </div>
         </div>
       </div>
     </div>
