@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import ModalMessage from "../ModalMessage/ModalMessage";
 import { getFormData, postFormData } from "../../utils/apiHandler";
+
+export interface StylesDictionary {
+  [Key: string]: CSSProperties;
+}
 
 function Form() {
   type State = {
@@ -52,72 +56,82 @@ function Form() {
 
   return (
     <div className="App">
-      <p>We still here</p>
-      <div className="form_div">
-        <form className="form_main" onSubmit={handleSubmit}>
-          <div className="input_div">
-            <div className="form-div">
-              {/* <label>Title </label> */}
+      <div className="flex min-h-screen bg-white">
+        <div className="w-1/2 bg-cover md:block hidden image-div"></div>
+        <div className="md:w-1/2 max-w-lg mx-auto my-24 px-4 py-5 shadow-none">
+          <div className="text-left p-0 font-sans">
+            <h1 className=" text-gray-800 text-3xl font-medium">
+              Fetch Front-End Challenge
+            </h1>
+            <h3 className="p-1 text-gray-700">
+              Please submit your information
+            </h3>
+          </div>
+          <form action="#" className="p-0" onSubmit={handleSubmit}>
+            <div className="mt-5">
               <input
                 type="text"
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent input-title "
+                placeholder="Full Name"
                 name="Full Name"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
-                className="input-title"
-                placeholder="Full Name"
                 data-testid="name"
               ></input>
             </div>
-            <div className="form-div">
-              {" "}
-              {/* <label>Title </label> */}
+            <div className="mt-5">
               <input
-                type="password"
-                name="Full Name"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                className="input-title"
-                placeholder="Password"
-                data-testid="password"
-              ></input>
-            </div>
-            <div className="form-div">
-              {/* <label>Title </label> */}
-              <input
-                type="email"
-                name="Full Name"
+                type="text"
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent input-title "
+                placeholder="Email"
+                name="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="input-title"
-                placeholder="Email"
                 data-testid="email"
               ></input>
             </div>
-            <div className="form-div">
-              <label>States</label>
+            <div className="mt-5">
+              <input
+                type="password"
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent input-title "
+                placeholder="Password"
+                name="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                data-testid="password"
+              ></input>
+            </div>
+            <div className="mt-5">
               <select
                 onChange={(e) => {
                   setState(e.target.value);
                   console.log(e.target.value);
                 }}
-                value={state}
+                value={state|| ""}
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent  "
               >
+                <option value="" disabled hidden>
+                  Select Your State
+                </option>
                 {allStates &&
                   allStates.map((state: State, idx) => (
                     <option value={state.name} key={idx}>
                       {state.abbreviation}
                     </option>
-                  ))}{" "}
+                  ))}
               </select>
             </div>
-            <div className="form-div">
-              <label>Occupations</label>
+            <div className="mt-5">
               <select
                 onChange={(e) => {
                   setOccupation(e.target.value);
                 }}
-                value={occupation}
+                value={occupation || ""}
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent  "
               >
+                <option value="" disabled hidden>
+                  Select Occupation
+                </option>
                 {allOccupations &&
                   allOccupations.map((occupation: string, idx: number) => (
                     <option value={occupation} key={idx}>
@@ -126,20 +140,28 @@ function Form() {
                   ))}
               </select>
             </div>
-          </div>
-          <div className="submit-button">
-            <button
-              className="button-submit"
-              type="submit"
-              disabled={isDisabled}
-              data-testid="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+            {/* 
+            <div className="mt-6 block p-5 text-sm md:font-sans text-xs text-gray-800">
+               © Tristan Sanjuan
+            </div> */}
+
+            <div className="mt-10">
+              <input
+                type="submit"
+                value="Submit"
+                className="py-3 bg-green-500 text-white w-full rounded hover:bg-green-600 button-submit"
+                disabled={isDisabled}
+                data-testid="submit"
+              ></input>
+            </div>
+          </form>
+          <a className="" href="/login" data-test="Link">
+            <span className="block  p-5 text-center text-gray-800  text-xs ">
+              {responseOk && <ModalMessage responseOk={responseOk} />}
+            </span>
+          </a>
+        </div>
       </div>
-      {responseOk && <ModalMessage responseOk={responseOk} />}
     </div>
   );
 }

@@ -43,7 +43,11 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
+    "autoprefixer": "^10.4.13",
     "jest-watch-typeahead": "^0.6.5",
+    "postcss": "^8.4.20",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.2.4",
     "ts-sinon": "^2.0.2"
   },
   "jest": {
