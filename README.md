@@ -24,6 +24,16 @@ Example:
 cd Desktop/Fetch_Challenge
 ```
 - You can then run this command to be able to use the project via local machine
+
+### Note: Make sure you in the the right directory. It should be... If you are cloning this from repo
+```
+Fetch_Challenge/fe_challenge_type/fe_challenge_type
+```
+### Else if you have the zip file 
+```
+.../fe_challenge_type/fe_challenge_type  -> .../ (is the location where you save the file from)
+```
+
 ```
 npm install
 ```
