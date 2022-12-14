@@ -6,7 +6,7 @@ interface ResponseOKProps {
   responseOk: boolean;
 }
 
-function ModalMessage(props: ResponseOKProps) {
+function FeedbackMessage(props: ResponseOKProps) {
   const { responseOk }: { responseOk: boolean } = props;
   return (
     <div
@@ -15,6 +15,7 @@ function ModalMessage(props: ResponseOKProps) {
           ? "bg-green-500 hover:bg-green-600 hover:shadow-lg transition duration-150 ease-linear backdrop-blur-xl z-20 max-w-md top-36 rounded-lg p-6 shadow"
           : "bg-red-600 hover:bg-red-800 hover:shadow-lg transition duration-150 ease-linear backdrop-blur-xl z-20 max-w-md top-36 rounded-lg p-6 shadow"
       }
+      data-testid="messageDiv"
     >
       <h1
         className={
@@ -22,6 +23,7 @@ function ModalMessage(props: ResponseOKProps) {
             ? "text-xl text-slate-100 font-medium"
             : "text-xl text-rose-300 font-medium"
         }
+        data-testid="feedback"
       >
         {responseOk
           ? "Form has been successfully Submitted"
@@ -32,4 +34,4 @@ function ModalMessage(props: ResponseOKProps) {
   );
 }
 
-export default ModalMessage;
+export default FeedbackMessage;

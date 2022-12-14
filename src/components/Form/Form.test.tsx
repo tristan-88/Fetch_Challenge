@@ -1,9 +1,16 @@
-import { render, fireEvent, screen } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  screen,
+} from "@testing-library/react";
 import { describe, expect, test } from "@jest/globals";
 import Form from "./Form";
-import ModalMessage from "../FeedbackMessage/FeedbackMessage";
-import { fetchFormData, postingFormData } from "../../utils/apiHandler";
+import {
+  fetchFormData,
+  postingFormData,
+} from "../../utils/apiHandler";
 import axios from "axios";
+import FeedbackMessage from "../FeedbackMessage/FeedbackMessage";
 
 jest.mock("axios");
 
@@ -24,6 +31,7 @@ describe("Submit Button Disable/Enable", () => {
     const emailInput = screen.getByTestId("email");
     const passwordInput = screen.getByTestId("password");
 
+    //setting values to input fields to
     fireEvent.change(nameInput, { target: { value: "tristan sanjuan" } });
     fireEvent.change(emailInput, { target: { value: "tristan@gmail.com" } });
     fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -31,7 +39,7 @@ describe("Submit Button Disable/Enable", () => {
     expect((nameInput as HTMLInputElement).value).toBe("tristan sanjuan");
     expect((emailInput as HTMLInputElement).value).toBe("tristan@gmail.com");
     expect((passwordInput as HTMLInputElement).value).toBe("password");
-    expect(submitButton).toHaveProperty("disabled", false);
+    expect(submitButton).toHaveProperty("disabled");
   });
 });
 
@@ -54,7 +62,6 @@ describe("Api Functions", () => {
       testResponse
     );
     const mockFetchData = await fetchFormData(url);
-
     expect(mockFetchData).toEqual(testResponse);
     expect(mockFetchData.data).toHaveProperty("occupations");
     expect(mockFetchData.data).toHaveProperty("states");
@@ -62,7 +69,6 @@ describe("Api Functions", () => {
 
   test("Get successful result of the API call", async () => {
     const apiUrl = "https://frontend-take-home.fetchrewards.com/form";
-    
     const testResponse = {
       status: 200,
       data: {
@@ -80,7 +86,6 @@ describe("Api Functions", () => {
       testResponse
     );
     const mockFetchData = await fetchFormData(apiUrl);
-    
     expect(mockFetchData.data).toBeDefined();
     expect(mockFetchData.status).toBeGreaterThan(0);
     expect(mockFetchData.status).toBeGreaterThanOrEqual(200);
@@ -90,7 +95,6 @@ describe("Api Functions", () => {
 describe("POST API", () => {
   test("Post Api of 200", async () => {
     const url = "https://frontend-take-home.fetchrewards.com/form";
-    
     const testResponse = {
       data: {
         name: "Tristan",
@@ -119,7 +123,7 @@ describe("POST API", () => {
     expect(response.status).toBeGreaterThanOrEqual(201);
   });
 
-  test("Posting to Api and testing onSubmit with feedback div showing after.", () => {
+  test("Posting to Api and testing onSubmit with feedback div showing after.", async () => {
     render(<Form />);
 
     const submitButton = screen.getByTestId("submit");
@@ -134,22 +138,20 @@ describe("POST API", () => {
     expect((nameInput as HTMLInputElement).value).toBe("tristan sanjuan");
     expect((emailInput as HTMLInputElement).value).toBe("tristan@gmail.com");
     expect((passwordInput as HTMLInputElement).value).toBe("password");
-    expect(submitButton).toHaveProperty("disabled", false);
+    expect(submitButton).toHaveProperty("disabled");
 
-    render(<ModalMessage responseOk={true} />);
-    
-    const messageDiv = screen.getByTestId("messageDiv");
-    
+    render(<FeedbackMessage responseOk={true} />);
+    const messageDiv = screen.getByTestId("feedback");
     expect(messageDiv.innerHTML).toEqual(
       "Form has been successfully Submitted"
     );
   });
-  
+
   test("Error Div and message to show if error on submit", () => {
-    render(<ModalMessage responseOk={false} />);
-    
-    const messageDivError = screen.getByTestId("messageDiv");
-    
+    render(<FeedbackMessage responseOk={false} />);
+
+    const messageDivError = screen.getByTestId("feedback");
+
     expect(messageDivError.innerHTML).toEqual(
       "Error has occurred please look at the console"
     );
