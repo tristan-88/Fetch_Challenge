@@ -1,16 +1,12 @@
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen,} from "@testing-library/react";
 import { describe, expect, test } from "@jest/globals";
 import Form from "./Form";
 import ModalMessage from "../ModalMessage/ModalMessage";
 import {
-  getFormData,
-  postFormData,
-  SetStatesOccupations,
   fetchFormData,
   postingFormData,
 } from "../../utils/apiHandler";
 import axios from "axios";
-import { spy } from "sinon";
 
 jest.mock("axios");
 
@@ -116,8 +112,8 @@ describe("POST API", () => {
       password: "tsjtsj1234",
       occupation: "Gainfully Unemployed",
       state: "Arizona",
-    });
-
+    })
+    
     expect(response).toEqual(testResponse);
     expect(response.data).toBeDefined();
     expect(response.status).toBeGreaterThanOrEqual(201);
@@ -125,7 +121,6 @@ describe("POST API", () => {
 
   test("Posting to Api and testing onSubmit with feedback div showing after.", () => {
     render(<Form />);
-    const handleSubmit = spy();
 
     const submitButton = screen.getByTestId("submit");
     const nameInput = screen.getByTestId("name");
@@ -142,13 +137,17 @@ describe("POST API", () => {
     expect((passwordInput as HTMLInputElement).value).toBe("password");
     expect(submitButton).toHaveProperty("disabled", false);
 
-    fireEvent.submit(submitButton, { target: { value: handleSubmit } });
-
     render(<ModalMessage responseOk={true} />);
     const messageDiv = screen.getByTestId("messageDiv");
     expect(messageDiv.innerHTML).toEqual(
       "Form has been successfully Submitted"
     );
-  
+  });
+  test("Error Div and message to show if error on submit", () => {
+        render(<ModalMessage responseOk={false} />);
+        const messageDivError = screen.getByTestId("messageDiv");
+        expect(messageDivError.innerHTML).toEqual(
+          "Error has occurred please look at the console"
+        );
   });
 });

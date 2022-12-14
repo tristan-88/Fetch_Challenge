@@ -15,11 +15,16 @@ export async function getFormData(
   url: string,
   setStateHooks: SetStatesOccupations
 ) {
-  const { setAllStates, setAllOccupation } = setStateHooks;
-  const response = await fetchFormData(url);
-  const { states, occupations } = response.data;
-  setAllStates(states);
-  setAllOccupation(occupations);
+  try{const { setAllStates, setAllOccupation } = setStateHooks;
+    const response = await fetchFormData(url);
+    if (response) {
+      const { states, occupations } = response.data;
+    setAllStates(states);
+    setAllOccupation(occupations);
+    }
+  } catch(e) {
+    console.error(e)
+  }
 }
 
 interface SetStateResponse {
@@ -35,7 +40,7 @@ interface FormFields {
 }
 
 export async function postingFormData (url: string, args: FormFields){
-    const response = await axios.post(url, args);
+    const response = await axios.post(url, args).catch();
     return response;
 }
 

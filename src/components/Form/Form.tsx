@@ -67,7 +67,7 @@ function Form() {
               Please submit your information
             </h3>
           </div>
-          <form action="#" className="p-0" onSubmit={handleSubmit}>
+          <form action="#" className="p-0" onSubmit={handleSubmit} data-testid="form">
             <div className="mt-5">
               <input
                 type="text"
