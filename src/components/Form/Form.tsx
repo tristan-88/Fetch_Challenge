@@ -1,10 +1,7 @@
-import React, { useState, useEffect, CSSProperties } from "react";
-import ModalMessage from "../ModalMessage/ModalMessage";
+import React, { useState, useEffect } from "react";
+import ModalMessage from "../FeedbackMessage/FeedbackMessage";
 import { getFormData, postFormData } from "../../utils/apiHandler";
 
-export interface StylesDictionary {
-  [Key: string]: CSSProperties;
-}
 
 function Form() {
   type State = {
@@ -36,7 +33,7 @@ function Form() {
         state,
       }
     );
-  }
+  };
 
   useEffect(() => {
     const url = "https://frontend-take-home.fetchrewards.com/form";
@@ -47,12 +44,18 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    if (name.trim() && email.trim() && password.trim()) {
+    if (
+      name.trim() &&
+      email.trim() &&
+      password.trim() &&
+      state.trim() &&
+      occupation.trim()
+    ) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [name, email, password]);
+  }, [name, email, password, state, occupation]);
 
   return (
     <div className="App">
@@ -98,7 +101,7 @@ function Form() {
             <div className="mt-5">
               <input
                 type="password"
-                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent input-title "
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent input-title"
                 placeholder="Password"
                 name="Password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -113,7 +116,7 @@ function Form() {
                   console.log(e.target.value);
                 }}
                 value={state || ""}
-                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent  "
+                className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent"
               >
                 <option value="" disabled hidden>
                   Select Your State
@@ -123,7 +126,7 @@ function Form() {
                     <option value={state.name} key={idx}>
                       {state.abbreviation}
                     </option>
-                  ))}
+                  ))};
               </select>
             </div>
             <div className="mt-5">
@@ -142,7 +145,7 @@ function Form() {
                     <option value={occupation} key={idx}>
                       {occupation}
                     </option>
-                  ))}
+                  ))};
               </select>
             </div>
             <div className="mt-10">
@@ -160,19 +163,19 @@ function Form() {
                 Submit
               </button>
             </div>
-          </form>{" "}
+          </form>
           <div className="mt-3 block text-sm md:font-sans text-xs text-gray-800">
             © created by Tristan Sanjuan
           </div>
           <div className="" data-test="Link">
             <span className="block  p-5 text-center text-gray-800  text-xs ">
-              {responseOk && <ModalMessage responseOk={responseOk} />}
+              {responseOk && <ModalMessage responseOk={responseOk}/>}
             </span>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Form;

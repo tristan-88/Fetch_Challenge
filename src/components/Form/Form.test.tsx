@@ -1,11 +1,8 @@
-import { render, fireEvent, screen,} from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import { describe, expect, test } from "@jest/globals";
 import Form from "./Form";
-import ModalMessage from "../ModalMessage/ModalMessage";
-import {
-  fetchFormData,
-  postingFormData,
-} from "../../utils/apiHandler";
+import ModalMessage from "../FeedbackMessage/FeedbackMessage";
+import { fetchFormData, postingFormData } from "../../utils/apiHandler";
 import axios from "axios";
 
 jest.mock("axios");
@@ -27,7 +24,6 @@ describe("Submit Button Disable/Enable", () => {
     const emailInput = screen.getByTestId("email");
     const passwordInput = screen.getByTestId("password");
 
-    //setting values to input fields to
     fireEvent.change(nameInput, { target: { value: "tristan sanjuan" } });
     fireEvent.change(emailInput, { target: { value: "tristan@gmail.com" } });
     fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -58,6 +54,7 @@ describe("Api Functions", () => {
       testResponse
     );
     const mockFetchData = await fetchFormData(url);
+
     expect(mockFetchData).toEqual(testResponse);
     expect(mockFetchData.data).toHaveProperty("occupations");
     expect(mockFetchData.data).toHaveProperty("states");
@@ -65,6 +62,7 @@ describe("Api Functions", () => {
 
   test("Get successful result of the API call", async () => {
     const apiUrl = "https://frontend-take-home.fetchrewards.com/form";
+    
     const testResponse = {
       status: 200,
       data: {
@@ -82,6 +80,7 @@ describe("Api Functions", () => {
       testResponse
     );
     const mockFetchData = await fetchFormData(apiUrl);
+    
     expect(mockFetchData.data).toBeDefined();
     expect(mockFetchData.status).toBeGreaterThan(0);
     expect(mockFetchData.status).toBeGreaterThanOrEqual(200);
@@ -91,6 +90,7 @@ describe("Api Functions", () => {
 describe("POST API", () => {
   test("Post Api of 200", async () => {
     const url = "https://frontend-take-home.fetchrewards.com/form";
+    
     const testResponse = {
       data: {
         name: "Tristan",
@@ -112,8 +112,8 @@ describe("POST API", () => {
       password: "tsjtsj1234",
       occupation: "Gainfully Unemployed",
       state: "Arizona",
-    })
-    
+    });
+
     expect(response).toEqual(testResponse);
     expect(response.data).toBeDefined();
     expect(response.status).toBeGreaterThanOrEqual(201);
@@ -127,7 +127,6 @@ describe("POST API", () => {
     const emailInput = screen.getByTestId("email");
     const passwordInput = screen.getByTestId("password");
 
-    //setting values to input fields to
     fireEvent.change(nameInput, { target: { value: "tristan sanjuan" } });
     fireEvent.change(emailInput, { target: { value: "tristan@gmail.com" } });
     fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -138,16 +137,21 @@ describe("POST API", () => {
     expect(submitButton).toHaveProperty("disabled", false);
 
     render(<ModalMessage responseOk={true} />);
+    
     const messageDiv = screen.getByTestId("messageDiv");
+    
     expect(messageDiv.innerHTML).toEqual(
       "Form has been successfully Submitted"
     );
   });
+  
   test("Error Div and message to show if error on submit", () => {
-        render(<ModalMessage responseOk={false} />);
-        const messageDivError = screen.getByTestId("messageDiv");
-        expect(messageDivError.innerHTML).toEqual(
-          "Error has occurred please look at the console"
-        );
+    render(<ModalMessage responseOk={false} />);
+    
+    const messageDivError = screen.getByTestId("messageDiv");
+    
+    expect(messageDivError.innerHTML).toEqual(
+      "Error has occurred please look at the console"
+    );
   });
 });
