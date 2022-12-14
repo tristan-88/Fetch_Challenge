@@ -152,7 +152,11 @@ function Form() {
               <button
                 type="submit"
                 value="Submit"
-                className="py-3 bg-green-500 text-white w-full rounded hover:bg-green-600 button-submit"
+                className={
+                  isDisabled
+                    ? "py-3 bg-green-100 text-white w-full rounded hover:bg-green-200 button-submit"
+                    : "py-3 bg-green-500 text-white w-full rounded hover:bg-green-600 button-submit"
+                }
                 disabled={isDisabled}
                 data-testid="submit"
               >
